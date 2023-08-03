@@ -1,29 +1,36 @@
 <template>
   <div>
-    <UserName :title="title" @changeAppTitle="changeTitle($event)"/>
+    <FallowerUsers :followers="followers" @toRemoveFollower="removeFollower($event)" />
   </div>
 </template>
 
 <script>
 
-import UserName from './components/UserName.vue';
+import FallowerUsers from './components/FallowerUsers.vue'
 
 export default {
   name: 'App',
   data () {
     return {
-      title : "Sabzlearn.ir"
+      followers : [
+        {id : 1 , name :"amin"},
+        {id : 2 , name :"amir"},
+        {id : 3 , name :"ali"},
+        {id : 4 , name :"ahmad"},
+        {id : 5 , name :"hasan"},
+      ]
+    }
+  },
+  methods : {
+    removeFollower (id) {
+      let followerIndex = this.followers.findIndex( follower => follower.id===id) ;
+      console.log(followerIndex)
+      this.followers.splice(followerIndex,1)
     }
   },
   components : {
-    UserName
-  } ,
-  methods : {
-    changeTitle (userData) {
-      this.title = userData
-    }
+    FallowerUsers
   }
-
   }
 
 
