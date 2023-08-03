@@ -1,9 +1,6 @@
 <template>
 <div>
-  <h1>{{ title }}</h1>
-  <button @click="changeTitle">Change Title</button>
-  <hr/>
-  <UserName/>
+  <UserName :title="title" :changeTitle="changeTitle"/>
 </div>
 </template>
 
@@ -17,25 +14,16 @@ export default {
     UserName
   },
   data () {
-    return{
+    return {
       title : "Sabzlearn.ir"
     }
   },
   methods : {
     changeTitle () {
-      this.title = 'Vue Js Course'
-    }
-  },
-  beforeUpdate () {
-  
-  },
-  updated () {
-    console.log("App" , "Update Shodam! :)")
-
-  },
-  mounted () {
-    console.log("App" , "Mount Shodam ! :)")
+      this.title = "Vue Js Course"
+    },
   }
+
   }
 
 
@@ -44,6 +32,5 @@ export default {
 <style scoped>
 div{
   text-align: center;
-  
 }
 </style>

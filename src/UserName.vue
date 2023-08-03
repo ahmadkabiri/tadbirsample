@@ -1,9 +1,10 @@
 <template>
-<div>
-    <h1>
-        User Component
-    </h1>
-</div>
+    <div>
+        <h1>
+           {{ title }} 
+        </h1>
+        <button @click="changeTitle">Change Title</button>
+    </div>
 </template>
 
 <script>
@@ -11,13 +12,16 @@
 
 export default {
   name: 'UserName',
-  updated () {
-    console.log("User" , "Update Shodam ! :)")
+  props : {
+    title : String ,
+    changeTitle : Function
   },
-  mounted () {
-    console.log("User" , "Mount Shodam ! :)")
-    
+  methods : {
+    // changeWords () {
+
+    // },
   }
+
 }
 
 
