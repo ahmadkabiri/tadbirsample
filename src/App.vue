@@ -5,6 +5,7 @@
     <userBox  title="ALI"/>
     <userBox  title="HASAN"/>
     <userBox  title="QADIR"/>
+    <h1>User From App Component</h1>
   </div>
 </template>
 
