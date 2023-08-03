@@ -1,9 +1,9 @@
 <template>
     <div>
         <h1>
-           {{ title }} 
+            {{ title }}
         </h1>
-        <button @click="changeTitle">Change Title</button>
+        <button @click="sendTitle">Change App Title</button>
     </div>
 </template>
 
@@ -12,14 +12,13 @@
 
 export default {
   name: 'UserName',
-  props : {
-    title : String ,
-    changeTitle : Function
-  },
   methods : {
-    // changeWords () {
-
-    // },
+    sendTitle () {
+      this.$emit('changeAppTitle',"Title change shod")
+    }
+  } ,
+  props : {
+    title : String
   }
 
 }

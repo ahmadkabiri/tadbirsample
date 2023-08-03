@@ -1,27 +1,27 @@
 <template>
-<div>
-  <UserName :title="title" :changeTitle="changeTitle"/>
-</div>
+  <div>
+    <UserName :title="title" @changeAppTitle="changeTitle($event)"/>
+  </div>
 </template>
 
 <script>
 
-import UserName from './UserName.vue';
+import UserName from './components/UserName.vue';
 
 export default {
   name: 'App',
-  components : {
-    UserName
-  },
   data () {
     return {
       title : "Sabzlearn.ir"
     }
   },
+  components : {
+    UserName
+  } ,
   methods : {
-    changeTitle () {
-      this.title = "Vue Js Course"
-    },
+    changeTitle (userData) {
+      this.title = userData
+    }
   }
 
   }
