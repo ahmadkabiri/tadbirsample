@@ -17,11 +17,11 @@ export default {
   data () {
     return {
       users : [
-        {id : 1 , name : "Js" , age : 25} ,
-        {id : 2 , name : "React Js" , age : 8} ,
-        {id : 3 , name : "Vue Js" , age : 7} ,
-        {id : 4 , name : "JQuery" , age : 16} ,
-        {id : 5 , name : "Angular Js" , age : 11} ,
+        {id : 1 , name : "Js" , age : 25 , color : 'red'} ,
+        {id : 2 , name : "React Js" , age : 8 , color :"blue"} ,
+        {id : 3 , name : "Vue Js" , age : 7 , color : "green"} ,
+        {id : 4 , name : "JQuery" , age : 16 , color : "yellow"} ,
+        {id : 5 , name : "Angular Js" , age : 11 , color : "gray"} ,
       ]
     }
   } ,
@@ -35,7 +35,8 @@ export default {
     eventBus.$on("removeUser",id => {
       this.removeUser(id)
     })
-  }
+  },
+
   }
 
 </script>
