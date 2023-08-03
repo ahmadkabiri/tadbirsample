@@ -1,33 +1,47 @@
 <template>
   <div>
-    <b-alert variant="success" show>Succes Alert</b-alert>
-    <b-alert variant="danger" show>Succes Alert</b-alert>
-    <b-alert variant="info" show>Succes Alert</b-alert>
-    <b-alert variant="warning" show>Succes Alert</b-alert>
+    <FallowerUsers :users="users" ></FallowerUsers>
   </div>
 </template>
 
 <script>
 
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
-
-import {BAlert} from 'bootstrap-vue'
+import FallowerUsers from './components/FallowerUsers.vue';
+import eventBus from './services/eventBus';
 
 export default {
   name: 'App',
   components : {
-    BAlert
+    FallowerUsers
+  },
+  data () {
+    return {
+      users : [
+        {id : 1 , name : "Js" , age : 25} ,
+        {id : 2 , name : "React Js" , age : 8} ,
+        {id : 3 , name : "Vue Js" , age : 7} ,
+        {id : 4 , name : "JQuery" , age : 16} ,
+        {id : 5 , name : "Angular Js" , age : 11} ,
+      ]
+    }
+  } ,
+  methods : {
+    removeUser (id) {
+      let userIndex = this.users.findIndex(user => user.id === id) ;
+      this.users.splice(userIndex,1)
+    }
+  },
+  created () {
+    eventBus.$on("removeUser",id => {
+      this.removeUser(id)
+    })
   }
-
-
   }
-
 
 </script>
 
 <style scoped>
-div{
+/* div{
   text-align: center;
-}
+} */
 </style>
