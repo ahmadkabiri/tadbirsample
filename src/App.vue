@@ -4,7 +4,7 @@
       <div class="search-box">
         <input
           type="text"
-          placeholder="Search"
+          placeholder="Search..."
           class="search-bar"
           v-model="query"
           @keypress="fetchWeather"
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "App",
   components: {},
@@ -44,12 +45,17 @@ export default {
   methods: {
     fetchWeather(e) {
       if (e.key === "Enter") {
-        fetch(`${this.api}/weather?q=${this.query}&appid=${this.apiKey}`)
-          .then((res) => res.json())
-          .then((response) => {
-            console.log(response);
-            this.weather = response;
-          });
+        // fetch(`${this.api}/weather?q=${this.query}&appid=${this.apiKey}`)
+        //   .then((res) => res.json())
+        //   .then((response) => {
+        //     console.log(response);
+        //     this.weather = response;
+        //   });
+        axios.get(`${this.api}/weather?q=${this.query}&appid=${this.apiKey}`)
+        .then(response => {
+         this.weather = response.data
+        })
+        
       }
     },
     dateBuilder() {
