@@ -1,202 +1,116 @@
 <template>
-  <div id="app" :class="typeof weather.main != 'undefined' ? 'warm' : ''">
-    <main>
-      <div class="search-box">
-        <input
-          type="text"
-          placeholder="Search..."
-          class="search-bar"
-          v-model="query"
-          @keypress="fetchWeather"
-        />
-      </div>
-
-      <div class="container" v-if="typeof weather.main != 'undefined'">
-        <div class="location-box">
-          <div class="location">
-            {{ weather.name }},{{ weather.sys.country }}
-          </div>
-          <div class="data">{{ dateBuilder() }}</div>
-        </div>
-        <div class="weather-box">
-          <div class="temp">
-            {{ Math.floor(this.weather.main.temp) - 273 }} C
-          </div>
-          <div class="weather">{{ weather.weather[0].main }}</div>
-        </div>
-      </div>
-    </main>
+  <div class="calculator">
+    <div class="display">{{ display || 0 }}</div>
+    <div class="btn" @click="clear">C</div>
+    <div class="btn">+/-</div>
+    <div class="btn">%</div>
+    <div class="btn operator" @click="devide">÷</div>
+    <div class="btn" @click="append('7')">7</div>
+    <div class="btn" @click="append('8')">8</div>
+    <div class="btn" @click="append('9')">9</div>
+    <div class="btn operator" @click="times">×</div>
+    <div class="btn" @click="append('4')">4</div>
+    <div class="btn" @click="append('5')">5</div>
+    <div class="btn" @click="append('6')">6</div>
+    <div class="btn operator" @click="minus">-</div>
+    <div class="btn" @click="append('1')">1</div>
+    <div class="btn" @click="append('2')">2</div>
+    <div class="btn" @click="append('3')">3</div>
+    <div class="btn operator" @click="add">+</div>
+    <div class="btn zero" @click="append('0')">0</div>
+    <div class="btn" @click="dot">.</div>
+    <div class="btn operator" @click="equal">=</div>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
 export default {
   name: "App",
   components: {},
   data() {
     return {
-      apiKey: "67c8c4d5167606365a511d05ad88c17b",
-      api: "https://api.openweathermap.org/data/2.5/",
-      query: "",
-      weather: {},
+      display: "",
+      operator: null,
+      prev: null,
+      operatorClick: false,
     };
   },
   methods: {
-    fetchWeather(e) {
-      if (e.key === "Enter") {
-        // fetch(`${this.api}/weather?q=${this.query}&appid=${this.apiKey}`)
-        //   .then((res) => res.json())
-        //   .then((response) => {
-        //     console.log(response);
-        //     this.weather = response;
-        //   });
-        axios.get(`${this.api}/weather?q=${this.query}&appid=${this.apiKey}`)
-        .then(response => {
-         this.weather = response.data
-        })
-        
+    append(number) {
+      // this.display = this.display + number
+      if (this.operatorClick) {
+        this.display = "";
+        this.operatorClick = false;
+      }
+      this.display += number;
+    },
+    clear() {
+      this.display = "";
+    },
+    dot() {
+      if (this.display.indexOf(".") == "-1") {
+        this.append(".");
       }
     },
-    dateBuilder() {
-      let d = new Date();
-      console.log(d)
-      let months = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ];
-      let days = [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-      ];
-      
-      let day = days[d.getDate()];
-      
-      let date = d.getDate();
-      
-      let month = months[d.getMonth()];
-      
-      let year = d.getFullYear()
-      console.log("days",day)
-      console.log("days",month)
-      console.log("days",date)
-
-      return `${day} ${date}${month} ${year}`
+    add() {
+      this.operator = (a, b) => a + b;
+      this.setPrevious();
+    },
+    minus() {
+      this.operator = (a, b) => a - b;
+      this.setPrevious();
+    },
+    times() {
+      this.operator = (a, b) => a * b;
+      this.setPrevious();
+    },
+    devide() {
+      this.operator = (a, b) => a / b;
+      this.setPrevious();
+    },
+    equal() {
+      this.display = `${this.operator(parseFloat(this.prev),parseFloat(this.display))}`
+    },
+    setPrevious() {
+      this.prev = this.display;
+      this.operatorClick = true;
     },
   },
 };
 </script>
 
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-body {
-  font-family: "montserrat", sans-serif;
-}
-
-#app {
-  background-image: url("./assets/weather.jpg");
-  background-size: cover;
-  background-position: bottom;
-  transition: 0.4s;
+.calculator {
+  text-align: center;
+  margin: 0 auto;
+  width: 400px;
+  font-size: 40px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: minmax(50px, auto);
 }
 
-#app.warm {
-  background-image: url("./assets/warm.jpg");
+.display {
+  grid-column: 1 / 5;
+  background-color: #333;
+  color: white;
 }
 
-main {
-  min-height: 100vh;
-  padding: 25px;
-  background-image: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.25),
-    rgba(0, 0, 0, 0.75)
-  );
+.zero {
+  grid-column: 1 / 3;
 }
 
-.search-box {
-  width: 100%;
-  margin-bottom: 30px;
-}
-
-.search-box .search-bar {
-  display: block;
-  width: 100%;
-  padding: 15px;
-  color: #fff;
-  font-style: 20px;
-  appearance: none;
-  border: none;
-  outline: none;
-  background: none;
-  background-color: #313131;
-  border-radius: 1rem 0 1rem 0;
-  font-size: 1.4rem;
-}
-
-.container {
+.btn {
+  background-color: #f2f2f2;
+  border: 1px solid #999;
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  /* background-color: red; */
-  flex-direction: column;
 }
 
-.location-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 3rem;
-}
-
-.location,
-.data {
-  font-size: 2rem;
-  color: #fff;
-}
-
-.weather-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.temp {
-  width: 20rem;
-  height: 10rem;
-  background-color: blue;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #313131;
-  border-radius: 0.5rem;
-  color: #fff;
-  font-size: 6rem;
-}
-
-.weather {
-  margin-top: 1rem;
-  font-size: 3rem;
-  color: #fff;
+.operator {
+  background-color: orange;
+  color: white;
 }
 </style>
