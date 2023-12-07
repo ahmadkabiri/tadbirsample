@@ -1,10 +1,11 @@
-
-import RegisterUser from '../components/Register.vue'
-import LoginUser from '../components/Login.vue'
-// import Navbar from '../components/Navbar.vue'
+import LoginPage from "../components/LoginPage.vue";
+import DashBoardPage from "../components/DashBoardPage.vue";
 
 export default [
-    {path: '/login',component : LoginUser},
-    {path: "/register" , component : RegisterUser},
-    // {path : "/nav" , component : Navbar}
-]
+  { path: "/", name: "loginPageRoute", component: LoginPage },
+  {
+    path: "/dashboard",
+    name: "dashboardPageRoute",
+    component: DashBoardPage,
+  },
+];
